@@ -1,7 +1,13 @@
 package io.gvox.plugin.phonecalltrap;
 
+import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
+
 import android.util.Log;
+
+import org.apache.cordova.PluginResult;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 public class PhoneCallTrap extends CordovaPlugin {
 	
@@ -15,5 +21,9 @@ public class PhoneCallTrap extends CordovaPlugin {
 	@Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
     	Log.d("Bolha", action);
+        
+        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, "JOCA"));
+        
+        return true;
     }
 }
