@@ -1,23 +1,12 @@
 var PhoneCallTrap = {
-	onCall: function() {
-		cordova.exec(
-			this.successCallback,
-			this.errorCallback,
-			'PhoneCallTrap',
-			'onCall',
-			[{
-				'action': 'João'
-			}]
-		);
-	},
+    onCall: function(successCallback, errorCallback) {
+        errorCallback = errorCallback || this.errorCallback;
+        cordova.exec(successCallback, errorCallback, 'PhoneCallTrap', 'onCall', []);
+    },
 
-	successCallback: function() {
-		console.log("successCallback");
-	},
-
-	errorCallback: function() {
-		console.log("errorCallback");	
-	}
+    errorCallback: function() {
+        console.log("WARNING: PhoneCallTrap errorCallback not implemented");
+    }
 };
 
 module.exports = PhoneCallTrap;
