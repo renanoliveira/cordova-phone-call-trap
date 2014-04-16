@@ -36,7 +36,7 @@ It is a Apache Cordova plugin to simplify handling phone call status and events 
 
 ## References
 
-We have tryed PhoneListener but it was made to work with Phonegap 1.6 and does not work with new Apache Cordova versions. As well its deployment is not easy as a Apache Cordova plugin should be. Although we are thankful =D
+We have tried PhoneListener but it is only compatible with Phonegap 1.6 and does not work with new Apache Cordova versions. Also, its deployment isn't as easy as an Apache Cordova plugin should be. We are thankful for their work, though.
 
 https://github.com/devgeeks/PhoneListener
 
