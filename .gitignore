@@ -24,3 +24,9 @@ proguard/
 
 # Ignore node_modules
 node_modules/
+
+# Mac os trash
+.DS_Store
+
+# Vim swap
+*.sw?

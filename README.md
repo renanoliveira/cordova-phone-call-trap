@@ -1,7 +1,7 @@
 Cordova PhoneCall Trap
 =======================
 
-It is a Apache Cordova plugin to easealy work with phone call status and events with Android devices.
+It is a Apache Cordova plugin to simplify handling phone call status and events in Android devices.
 
 
 ## Install
