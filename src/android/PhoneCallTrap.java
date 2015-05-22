@@ -60,8 +60,12 @@ class CallStateListener extends PhoneStateListener {
             msg = "RINGING";
             break;
         }
+        
+        JSONArray msgJSON = new JSONArray();
+        msgJSON.put(msg);
+        msgJSON.put(incomingNumber);
 
-        PluginResult result = new PluginResult(PluginResult.Status.OK, msg);
+        PluginResult result = new PluginResult(PluginResult.Status.OK, msgJSON);
         result.setKeepCallback(true);
 
         callbackContext.sendPluginResult(result);
