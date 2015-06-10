@@ -48,16 +48,16 @@ class CallStateListener extends PhoneStateListener {
         String msg = "";
 
         switch (state) {
+            case TelephonyManager.CALL_STATE_RINGING:
+            msg = incomingNumber;
+            break;
+            
             case TelephonyManager.CALL_STATE_IDLE:
             msg = "IDLE";
             break;
 
             case TelephonyManager.CALL_STATE_OFFHOOK:
             msg = "OFFHOOK";
-            break;
-
-            case TelephonyManager.CALL_STATE_RINGING:
-            msg = "RINGING";
             break;
         }
 
