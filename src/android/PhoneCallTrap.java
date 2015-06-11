@@ -49,7 +49,7 @@ class CallStateListener extends PhoneStateListener {
 
         switch (state) {
             case TelephonyManager.CALL_STATE_RINGING:
-            msg = incomingNumber;
+            msg = "RINGING " + incomingNumber;
             break;
             
             case TelephonyManager.CALL_STATE_IDLE:
