@@ -38,6 +38,8 @@
 
         <header-file src="src/ios/CDVPhoneCallTrap.h"/>
         <source-file src="src/ios/CDVPhoneCallTrap.m"/>
+        
+        <framework src="CoreTelephony.framework"/>
 
     </platform>
 </plugin>
