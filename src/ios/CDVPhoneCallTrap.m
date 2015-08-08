@@ -1,6 +1,7 @@
 
 
 #import "CDVPhoneCallTrap.h"
+#import <CoreTelephony/CTCallCenter.h>
 #import <CoreTelephony/CTCall.h>
 
 
