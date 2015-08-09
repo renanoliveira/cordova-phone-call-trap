@@ -11,7 +11,6 @@
 -(void)onCall:(CDVInvokedUrlCommand*)command
 {
     self.callCenter = [[CTCallCenter alloc] init];
-    [self onCall:command];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callReceived:) name:CTCallStateIncoming object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callEnded:) name:CTCallStateDisconnected object:nil];
