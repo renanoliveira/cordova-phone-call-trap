@@ -7,24 +7,16 @@
 
 @implementation CDVPhoneCallTrap
 
-//Initialize the plugin
-- (void)pluginInitialize:(CDVInvokedUrlCommand*)command
-{
-    self.callCenter = [[CTCallCenter alloc] init];
-    [self onCall:command];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callReceived:) name:CTCallStateIncoming object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callEnded:) name:CTCallStateDisconnected object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callConnected:) name:CTCallStateConnected object:nil];
-    
-    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-}
-
-
 //handle calls
 -(void)onCall:(CDVInvokedUrlCommand*)command
 {
+    self.callCenter = [[CTCallCenter alloc] init];
+    [self onCall:command];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callReceived:) name:CTCallStateIncoming object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callEnded:) name:CTCallStateDisconnected object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callConnected:) name:CTCallStateConnected object:nil];
+
     self.callCenter.callEventHandler = ^(CTCall *call){
         
         NSString *callState;

@@ -10,7 +10,6 @@
 
 @property (nonatomic, strong) CTCallCenter *callCenter;
 
-- (void)pluginInitialize:(CDVInvokedUrlCommand*)command;
 - (void)onCall:(CDVInvokedUrlCommand*)command;
 
 @end
