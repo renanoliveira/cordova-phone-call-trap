@@ -11,24 +11,23 @@
 - (void)pluginInitialize:(CDVInvokedUrlCommand*)command
 {
     self.callCenter = [[CTCallCenter alloc] init];
-    [self handleCall];
+    [self onCall:command];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callReceived:) name:CTCallStateIncoming object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callEnded:) name:CTCallStateDisconnected object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callConnected:) name:CTCallStateConnected object:nil];
-
+    
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 
 //handle calls
 -(void)onCall:(CDVInvokedUrlCommand*)command
 {
-    CDVPluginResult* result = nil;
-    NSString* callState;
-
     self.callCenter.callEventHandler = ^(CTCall *call){
+        
+        NSString *callState;
         
         if ([call.callState isEqualToString: CTCallStateConnected])
         {
@@ -38,7 +37,7 @@
         else if ([call.callState isEqualToString: CTCallStateDialing])
         {
             NSLog(@"call CTCallStateDialing");
-             callState = @"dialing";
+            callState = @"dialing";
         }
         else if ([call.callState isEqualToString: CTCallStateDisconnected])
         {
@@ -48,15 +47,15 @@
         else if ([call.callState isEqualToString: CTCallStateIncoming])
         {
             NSLog(@"call CTCallStateIncoming");
-             callState = @"incoming";
+            callState = @"incoming";
         }
         else  {
             NSLog(@"call NO");
             callState = @"idle";
         }
-
-        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:callState];
-        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:callState];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     };
 }
 
