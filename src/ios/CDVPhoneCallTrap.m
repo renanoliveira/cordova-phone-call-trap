@@ -22,27 +22,27 @@
         
         if ([call.callState isEqualToString: CTCallStateConnected])
         {
-            NSLog(@"call CTCallStateConnected");//Background task stopped
-            callState = @"connected";
+            NSLog(@"call CTCallStateConnected - OFFHOOK");
+            callState = @"OFFHOOK";
         }
         else if ([call.callState isEqualToString: CTCallStateDialing])
         {
-            NSLog(@"call CTCallStateDialing");
-            callState = @"dialing";
+            NSLog(@"call CTCallStateDialing - OFFHOOK");
+            callState = @"OFFHOOK";
         }
         else if ([call.callState isEqualToString: CTCallStateDisconnected])
         {
-            NSLog(@"call CTCallStateDisconnected");//Background task started
-            callState = @"disconnected";
+            NSLog(@"call CTCallStateDisconnected - IDLE");
+            callState = @"IDLE";
         }
         else if ([call.callState isEqualToString: CTCallStateIncoming])
         {
-            NSLog(@"call CTCallStateIncoming");
-            callState = @"incoming";
+            NSLog(@"call CTCallStateIncoming - RINGING");
+            callState = @"RINGING";
         }
         else  {
-            NSLog(@"call NO");
-            callState = @"idle";
+            NSLog(@"call NO - IDLE");
+            callState = @"IDLE";
         }
         
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:callState];
