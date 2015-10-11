@@ -35,7 +35,7 @@ public class PhoneCallTrap extends CordovaPlugin {
 class CallStateListener extends PhoneStateListener {
 
     public static boolean wasRinging;
-    public static string ringingNumber;
+    public static String  ringingNumber;
     private CallbackContext callbackContext;
 
     public void setCallbackContext(CallbackContext callbackContext) {
