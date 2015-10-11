@@ -35,6 +35,7 @@ public class PhoneCallTrap extends CordovaPlugin {
 class CallStateListener extends PhoneStateListener {
 
     public static boolean wasRinging;
+    public static string ringingNumber;
     private CallbackContext callbackContext;
 
     public void setCallbackContext(CallbackContext callbackContext) {
@@ -51,23 +52,26 @@ class CallStateListener extends PhoneStateListener {
         switch (state) {
             case TelephonyManager.CALL_STATE_RINGING:
             msg = "RINGING " + incomingNumber;
+            ringingNumber = incomingNumber;
             wasRinging = true;
             break;
 
             case TelephonyManager.CALL_STATE_IDLE:
              if (wasRinging) {
-                msg = "MISSED_OR_REJECTED";
+                msg = "MISSED_OR_REJECTED " + ringingNumber;
                 } else {
                     msg = "IDLE";
             }
 
             wasRinging = false;
+            ringingNumber = "";
             break;
 
             case TelephonyManager.CALL_STATE_OFFHOOK:
              msg = "OFFHOOK";
 
             wasRinging = false;
+            ringingNumber = "";
             break;
         }
 
