@@ -9,6 +9,7 @@ import android.telephony.TelephonyManager;
 
 import org.json.JSONException;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 
 public class PhoneCallTrap extends CordovaPlugin {
@@ -61,7 +62,16 @@ class CallStateListener extends PhoneStateListener {
             break;
         }
 
-        PluginResult result = new PluginResult(PluginResult.Status.OK, msg);
+        PluginResult result;
+        try{
+          JSONObject msgJSON = new JSONObject();
+          msgJSON.put("state",msg);
+          msgJSON.put("number",incomingNumber);
+          result = new PluginResult(PluginResult.Status.OK, msgJSON);
+        }catch(Exception e){
+          result = new PluginResult(PluginResult.Status.ERROR,e.getMessage());
+        }
+
         result.setKeepCallback(true);
 
         callbackContext.sendPluginResult(result);
