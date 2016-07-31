@@ -9,6 +9,10 @@ import android.telephony.TelephonyManager;
 
 import org.json.JSONException;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.util.List;
+import java.util.ArrayList;
 
 
 public class PhoneCallTrap extends CordovaPlugin {
@@ -33,7 +37,7 @@ public class PhoneCallTrap extends CordovaPlugin {
 }
 
 class CallStateListener extends PhoneStateListener {
-
+    private String lastCalledNumber;
     private CallbackContext callbackContext;
 
     public void setCallbackContext(CallbackContext callbackContext) {
@@ -42,7 +46,7 @@ class CallStateListener extends PhoneStateListener {
 
     public void onCallStateChanged(int state, String incomingNumber) {
         super.onCallStateChanged(state, incomingNumber);
-
+        this.lastCalledNumber = incomingNumber;
         if (callbackContext == null) return;
 
         String msg = "";
@@ -61,7 +65,30 @@ class CallStateListener extends PhoneStateListener {
             break;
         }
 
-        PluginResult result = new PluginResult(PluginResult.Status.OK, msg);
+        ArrayList<JSONObject> res = new ArrayList<JSONObject>();
+
+        
+        JSONObject json = new JSONObject();
+        try{
+            json.put( "msg", msg );
+            json.put( "number", incomingNumber.toString() );
+            res.add( json );
+        } catch(Exception e){
+            // return false;            // Always must return something
+        }
+
+            // callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, ar));
+
+        PluginResult result = new PluginResult(PluginResult.Status.OK, json);
+        result.setKeepCallback(true);
+
+        callbackContext.sendPluginResult(result);
+    }
+
+    public void getLastCalledNumber() {        
+        if (callbackContext == null) return;
+
+        PluginResult result = new PluginResult(PluginResult.Status.OK, this.lastCalledNumber );
         result.setKeepCallback(true);
 
         callbackContext.sendPluginResult(result);
