@@ -14,6 +14,30 @@ import org.json.JSONObject;
 import java.util.List;
 import java.util.ArrayList;
 
+import android.net.Uri;
+import android.util.Base64;
+
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import java.io.ByteArrayOutputStream;
+import android.util.Log;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Random;
+
 
 public class PhoneCallTrap extends CordovaPlugin {
 
@@ -23,6 +47,7 @@ public class PhoneCallTrap extends CordovaPlugin {
         prepareListener();
 
         listener.setCallbackContext(callbackContext);
+        listener.setContext( this.cordova.getActivity() );
 
         return true;
     }
@@ -39,9 +64,14 @@ public class PhoneCallTrap extends CordovaPlugin {
 class CallStateListener extends PhoneStateListener {
     private String lastCalledNumber;
     private CallbackContext callbackContext;
+    private Context given;
 
     public void setCallbackContext(CallbackContext callbackContext) {
         this.callbackContext = callbackContext;
+    }
+
+    public void setContext(Context context) {
+        this.given = context;
     }
 
     public void onCallStateChanged(int state, String incomingNumber) {
@@ -67,8 +97,54 @@ class CallStateListener extends PhoneStateListener {
 
         ArrayList<JSONObject> res = new ArrayList<JSONObject>();
 
-        
+       
+
         JSONObject json = new JSONObject();
+                    Log.d( "ANGER CALL1!!!!!!!!!!!!!!!!!", "PRE" + incomingNumber + "PRE" );
+        if( incomingNumber != null && !incomingNumber.isEmpty()){
+             if( incomingNumber != Uri.encode(incomingNumber)){
+                    incomingNumber = Uri.encode(incomingNumber);
+                }
+
+            Log.d( "ANGER CALL2!!!!!!!!!!!!!!!!!", incomingNumber );
+
+            int phoneContactID = new Random().nextInt();
+            Cursor contactLookupCursor = this.given.getContentResolver().query(
+                Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, incomingNumber), 
+                new String[]{ContactsContract.PhoneLookup.DISPLAY_NAME, ContactsContract.PhoneLookup._ID}, 
+                null, null, null);
+            while (contactLookupCursor.moveToNext()) {
+                phoneContactID = contactLookupCursor.getInt(contactLookupCursor.getColumnIndexOrThrow(ContactsContract.PhoneLookup._ID));
+            }
+            contactLookupCursor.close();
+            
+            ContentResolver cr = this.given.getContentResolver();
+            Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long.valueOf(phoneContactID));
+            InputStream photo_stream = ContactsContract.Contacts.openContactPhotoInputStream(cr, contactUri, true);
+
+            final Bitmap bmp = BitmapFactory.decodeStream(photo_stream);
+
+            if( bmp != null ){
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                byte[] byteArray = byteArrayOutputStream.toByteArray();
+
+                String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);           
+
+                try {        
+                    json.put("image", encoded);
+                } catch (Exception e) {
+
+                }
+            } else {
+                try {        
+                    json.put("image", null);
+                } catch (Exception e) {
+
+                }
+            }                    
+        }        
+        
         try{
             json.put( "msg", msg );
             json.put( "number", incomingNumber.toString() );
@@ -77,7 +153,7 @@ class CallStateListener extends PhoneStateListener {
             // return false;            // Always must return something
         }
 
-            // callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, ar));
+            // callbackcallbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, ar));
 
         PluginResult result = new PluginResult(PluginResult.Status.OK, json);
         result.setKeepCallback(true);
