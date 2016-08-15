@@ -49,7 +49,9 @@ public class PhoneCallTrap extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         prepareListener();
 
-        if( action.equals("onCall") ){
+        if( action.equals("minimise") ){
+            this.cordova.getActivity().moveTaskToBack(true);
+        } else if( action.equals("onCall") ){
             listener.setCallbackContext(callbackContext);
             listener.setContext( this.cordova.getActivity() );
         }else if( action.equals( "getCallData" ) ){

@@ -19,6 +19,11 @@ var PhoneCallTrap = {
         cordova.exec(successCallback, errorCallback, 'PhoneCallTrap', 'getCallData', [number]);
     },
 
+    minimise: function(successCallback, errorCallback) {
+        errorCallback = errorCallback || this.errorCallback;
+        cordova.exec(successCallback, errorCallback, 'PhoneCallTrap', 'minimise', [] );
+    },
+
     errorCallback: function() {
         console.log("WARNING: PhoneCallTrap errorCallback not implemented");
     }
