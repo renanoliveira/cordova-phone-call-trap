@@ -58,8 +58,7 @@ public class PhoneCallTrap extends CordovaPlugin {
             listener.setCallbackContext(callbackContext);
             listener.setContext( this.cordova.getActivity() );
             listener.getCallData( args.getString(0), null );
-        } else {
-            Long dateGiven = args.getLong(0);
+        } else {            
             // getting history
             ArrayList<String> calls = new ArrayList<String>();            
             ArrayList<String> lastCall = new ArrayList<String>();            
@@ -82,15 +81,11 @@ public class PhoneCallTrap extends CordovaPlugin {
                 String callDuration = managedCursor.getString(duration);
                 String dir = null;
                 int dircode = Integer.parseInt(callType);
-                
-                Log.d( "ANGER CALLS", String.valueOf( new Date(dateGiven).compareTo(new Date(Long.valueOf(callDate))) ) );
-                Log.d( "ANGER CALLS", String.valueOf( new Date(dateGiven) ) );
-                Log.d( "ANGER CALLS", String.valueOf( new Date(Long.valueOf(callDate)) ) );
-
-                if( new Date(dateGiven).compareTo(new Date(Long.valueOf(callDate))) <= 0 ){
+            
+                if( action.equals("getHistory" ) && new Date( args.getLong(0) ).compareTo( new Date( Long.valueOf( callDate ) ) ) <= 0 ){
                     calls.add( phNumber );
-                    Log.d( "ANGER CALLS", "pushing in");
-                }                
+                }
+                
                 lastCall.clear();
                 lastCall.add( phNumber );
                 // sb.append("\nPhone Number:--- " + phNumber + " \nCall Type:--- " + dir + " \nCall Date:--- " + callDayTime + " \nCall duration in sec :--- " + callDuration);
