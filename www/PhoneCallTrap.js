@@ -9,9 +9,9 @@ var PhoneCallTrap = {
         cordova.exec(successCallback, errorCallback, 'PhoneCallTrap', 'getLastCall', []);
     },
 
-    getHistory: function(successCallback, errorCallback) {
+    getHistory: function(date, successCallback, errorCallback) {
         errorCallback = errorCallback || this.errorCallback;
-        cordova.exec(successCallback, errorCallback, 'PhoneCallTrap', 'getHistory', []);
+        cordova.exec(successCallback, errorCallback, 'PhoneCallTrap', 'getHistory', [ date ]);
     },
 
     getCallData: function(number, successCallback, errorCallback) {
