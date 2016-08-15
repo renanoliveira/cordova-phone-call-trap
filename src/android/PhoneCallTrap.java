@@ -57,6 +57,8 @@ public class PhoneCallTrap extends CordovaPlugin {
             listener.setContext( this.cordova.getActivity() );
             listener.getCallData( args.getString(0), null );
         } else {
+            String dateGiven = args.getString(0);
+            // getting history
             ArrayList<String> calls = new ArrayList<String>();            
             ArrayList<String> lastCall = new ArrayList<String>();            
 
@@ -78,20 +80,10 @@ public class PhoneCallTrap extends CordovaPlugin {
                 String callDuration = managedCursor.getString(duration);
                 String dir = null;
                 int dircode = Integer.parseInt(callType);
-                // switch (dircode) {
-                // case CallLog.Calls.OUTGOING_TYPE:
-                //     dir = "OUTGOING";
-                //     break;
-
-                // case CallLog.Calls.INCOMING_TYPE:
-                //     dir = "INCOMING";
-                //     break;
-
-                // case CallLog.Calls.MISSED_TYPE:
-                //     dir = "MISSED";
-                //     break;
-                // }
-                calls.add( phNumber );
+                
+                if( dateGiven == null || new Date(dateGiven).compareTo(new Date(Long.valueOf(callDate))) >= 0 ){
+                    calls.add( phNumber );
+                }                
                 lastCall.clear();
                 lastCall.add( phNumber );
                 // sb.append("\nPhone Number:--- " + phNumber + " \nCall Type:--- " + dir + " \nCall Date:--- " + callDayTime + " \nCall duration in sec :--- " + callDuration);
