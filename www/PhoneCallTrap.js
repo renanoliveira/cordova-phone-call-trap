@@ -9,9 +9,14 @@ var PhoneCallTrap = {
         cordova.exec(successCallback, errorCallback, 'PhoneCallTrap', 'getLastCall', []);
     },
 
-    getHistory: function(date, successCallback, errorCallback) {
-        errorCallback = errorCallback || this.errorCallback;
-        cordova.exec(successCallback, errorCallback, 'PhoneCallTrap', 'getHistory', [ date ]);
+    getHistory: function(date, successCallback, errorCallback) {        
+        if( typeof date == 'function' ){
+            errorCallback = errorCallback || this.errorCallback;
+            cordova.exec(date, errorCallback, 'PhoneCallTrap', 'getHistory', [0]);
+        } else {
+            errorCallback = errorCallback || this.errorCallback;
+            cordova.exec(successCallback, errorCallback, 'PhoneCallTrap', 'getHistory', [ typeof date == 'function' ? 0 : date ]);
+        }        
     },
 
     getCallData: function(number, successCallback, errorCallback) {

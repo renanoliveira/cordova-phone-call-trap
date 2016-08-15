@@ -59,7 +59,7 @@ public class PhoneCallTrap extends CordovaPlugin {
             listener.setContext( this.cordova.getActivity() );
             listener.getCallData( args.getString(0), null );
         } else {
-            String dateGiven = args.getString(0);
+            Long dateGiven = args.getLong(0);
             // getting history
             ArrayList<String> calls = new ArrayList<String>();            
             ArrayList<String> lastCall = new ArrayList<String>();            
@@ -83,8 +83,13 @@ public class PhoneCallTrap extends CordovaPlugin {
                 String dir = null;
                 int dircode = Integer.parseInt(callType);
                 
-                if( dateGiven == null || new Date(dateGiven).compareTo(new Date(Long.valueOf(callDate))) >= 0 ){
+                Log.d( "ANGER CALLS", String.valueOf( new Date(dateGiven).compareTo(new Date(Long.valueOf(callDate))) ) );
+                Log.d( "ANGER CALLS", String.valueOf( new Date(dateGiven) ) );
+                Log.d( "ANGER CALLS", String.valueOf( new Date(Long.valueOf(callDate)) ) );
+
+                if( new Date(dateGiven).compareTo(new Date(Long.valueOf(callDate))) <= 0 ){
                     calls.add( phNumber );
+                    Log.d( "ANGER CALLS", "pushing in");
                 }                
                 lastCall.clear();
                 lastCall.add( phNumber );
@@ -96,7 +101,7 @@ public class PhoneCallTrap extends CordovaPlugin {
             managedCursor.close();
 
             JSONObject json = new JSONObject();
-            if( action.equals("getCallHistory" ) ){
+            if( action.equals("getHistory" ) ){
                 json.put( "calls", calls );
             } else {
                 json.put( "call", lastCall );
