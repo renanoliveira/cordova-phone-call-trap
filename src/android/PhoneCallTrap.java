@@ -60,8 +60,8 @@ public class PhoneCallTrap extends CordovaPlugin {
             listener.getCallData( args.getString(0), null );
         } else {            
             // getting history
-            ArrayList<String> calls = new ArrayList<String>();            
-            ArrayList<String> lastCall = new ArrayList<String>();            
+            ArrayList<JSONObject> calls = new ArrayList<JSONObject>();            
+            ArrayList<String> lastCall = new ArrayList<String>();                        
 
             Uri contacts = CallLog.Calls.CONTENT_URI;
             Cursor managedCursor = this.cordova.getActivity().getContentResolver().query(contacts, null, null, null, null);
@@ -70,7 +70,7 @@ public class PhoneCallTrap extends CordovaPlugin {
             int date = managedCursor.getColumnIndex(CallLog.Calls.DATE);
             int duration = managedCursor.getColumnIndex(CallLog.Calls.DURATION);
             while (managedCursor.moveToNext()) {
-
+                JSONObject callData = new JSONObject();
                 HashMap<String, String> rowDataCall = new HashMap<String, String>();
 
                 String phNumber = managedCursor.getString(number);
@@ -82,9 +82,18 @@ public class PhoneCallTrap extends CordovaPlugin {
                 String dir = null;
                 int dircode = Integer.parseInt(callType);
             
-                if( action.equals("getHistory" ) && new Date( args.getLong(0) ).compareTo( new Date( Long.valueOf( callDate ) ) ) <= 0 ){
-                    calls.add( phNumber );
+                if( action.equals("getHistory" ) && new Date( args.getLong(0) ).compareTo( new Date( Long.valueOf( callDate ) ) ) <= 0 ){                    
+                    try {
+                        callData.put( "date", callDate );
+                        callData.put( "callDayTime", callDayTime );
+                        callData.put( "number", phNumber );
+                        calls.add( callData );
+                    }catch( Exception e ){
+
+                    }   
                 }
+
+
                 
                 lastCall.clear();
                 lastCall.add( phNumber );
@@ -148,31 +157,40 @@ class CallStateListener extends PhoneStateListener {
             contactName = contactLookupCursor.getString(contactLookupCursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
         }
         contactLookupCursor.close();
-        
+
         ContentResolver cr = this.given.getContentResolver();
-        Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long.valueOf(phoneContactID));
-        InputStream photo_stream = ContactsContract.Contacts.openContactPhotoInputStream(cr, contactUri, true);
 
-        final Bitmap bmp = BitmapFactory.decodeStream(photo_stream);
-        if( bmp != null ){
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-            byte[] byteArray = byteArrayOutputStream.toByteArray();
+        try{
+            Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long.valueOf(phoneContactID));
+            InputStream photo_stream = ContactsContract.Contacts.openContactPhotoInputStream(cr, contactUri, true);
 
-            String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);           
+            final Bitmap bmp = BitmapFactory.decodeStream(photo_stream);
+            if( bmp != null ){
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                byte[] byteArray = byteArrayOutputStream.toByteArray();
 
-            try {        
-                json.put("image", encoded);
-            } catch (Exception e) {
+                String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);           
 
-            }
-        } else {
+                try {        
+                    json.put("image", encoded);
+                } catch (Exception e) {
+
+                }
+            } else {
+                try {        
+                    json.put("image", null);
+                } catch (Exception e) {
+
+                }
+            }                    
+        } catch (Exception e){
             try {        
                 json.put("image", null);
-            } catch (Exception e) {
+            } catch (Exception eKor) {
 
             }
-        }                    
+        }        
         try{
             json.put( "number", incomingNumber.toString() );
         } catch(Exception e){
