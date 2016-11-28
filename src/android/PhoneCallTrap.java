@@ -61,11 +61,12 @@ class CallStateListener extends PhoneStateListener {
             break;
         }
 
-        JSONArray msgJSON = new JSONArray();
-        msgJSON.put(msg);
-        msgJSON.put(incomingNumber);
+        JSONObject jso = new JSONObject();
+        //JSONArray msgJSON = new JSONArray();
+        jso.put("msg", msg);
+        jso.put("incomingNumber", incomingNumber);
 
-        PluginResult result = new PluginResult(PluginResult.Status.OK, msgJSON);
+        PluginResult result = new PluginResult(PluginResult.Status.OK, jso);
         result.setKeepCallback(true);
 
         callbackContext.sendPluginResult(result);
