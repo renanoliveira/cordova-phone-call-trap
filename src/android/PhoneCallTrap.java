@@ -1,4 +1,4 @@
-package io.gvox.phonecalltrap;
+package io.cozzbie.phonecalltrap;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
