@@ -6,6 +6,10 @@ var PhoneCallTrap = {
 
     errorCallback: function() {
         console.log("WARNING: PhoneCallTrap errorCallback not implemented");
+    },
+
+    getCurrentState: function(callback) {
+        cordova.exec(callback, this.errorCallback, 'PhoneCallTrap', 'getCurrentState', []);
     }
 };
 

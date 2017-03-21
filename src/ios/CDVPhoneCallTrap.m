@@ -50,4 +50,35 @@
     };
 }
 
+-(void)getCurrentState:(CDVInvokedUrlCommand*)command
+{
+    [self.commandDelegate runInBackground:^{
+        NSString *callState;
+        callState = @"IDLE";
+
+        CTCallCenter *callCenter = [[CTCallCenter alloc] init];
+        for (CTCall *call in callCenter.currentCalls) {
+            if (![callState isEqual: @"OFFHOOK"]) {
+                if ([call.callState isEqualToString: CTCallStateConnected])
+                {
+                    NSLog(@"getCurrentState: call CTCallStateConnected - OFFHOOK");
+                    callState = @"OFFHOOK";
+                }
+                else if ([call.callState isEqualToString: CTCallStateDialing])
+                {
+                    NSLog(@"getCurrentState: call CTCallStateDialing - OFFHOOK");
+                    callState = @"OFFHOOK";
+                }
+                else if ([call.callState isEqualToString: CTCallStateIncoming])
+                {
+                    NSLog(@"getCurrentState: call CTCallStateIncoming - RINGING");
+                    callState = @"RINGING";
+                }
+            }
+        }
+
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:callState] callbackId:command.callbackId];
+    }];
+}
+
 @end

@@ -11,5 +11,6 @@
 @property (nonatomic, strong) CTCallCenter *callCenter;
 
 - (void)onCall:(CDVInvokedUrlCommand*)command;
+- (void)getCurrentState:(CDVInvokedUrlCommand*)command;
 
 @end
