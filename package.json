@@ -1,0 +1,33 @@
+{
+  "name": "io.gvox.plugin.phonecalltrap",
+  "version": "0.1.2",
+  "description": "A phone call trap",
+  "cordova": {
+    "id": "io.gvox.plugin.phonecalltrap",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renanoliveira/cordova-phone-call-trap.git"
+  },
+  "keywords": [
+    "phonegap",
+    "calendar",
+    "phone",
+    "call",
+    "phone-call",
+    "ringing",
+    "phone-state",
+    "call-state",
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "Renan Oliveira and Felipe Ferreira",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/renanoliveira/cordova-phone-call-trap/issues"
+  },
+  "homepage": "https://github.com/renanoliveira/cordova-phone-call-trap#readme"
+}
