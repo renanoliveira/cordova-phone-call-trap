@@ -30,6 +30,7 @@ It is a Apache Cordova plugin to simplify handling phone call status and events 
     });
 
 NOTE: You must add these two permissions in order to receive caller id:
+
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
 
