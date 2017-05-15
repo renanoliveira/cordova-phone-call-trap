@@ -61,7 +61,8 @@ class CallStateListener extends PhoneStateListener {
             break;
         }
 
-        PluginResult result = new PluginResult(PluginResult.Status.OK, msg);
+        // send state and number together, and parse in javascript
+        PluginResult result = new PluginResult(PluginResult.Status.OK, msg + ":" + incomingNumber);
         result.setKeepCallback(true);
 
         callbackContext.sendPluginResult(result);
