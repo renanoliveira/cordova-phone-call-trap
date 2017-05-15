@@ -11,12 +11,13 @@ It is a Apache Cordova plugin to simplify handling phone call status and events 
 
 ## Quick Example
 
-    PhoneCallTrap.onCall(function(state) {
-        console.log("CHANGE STATE: " + state);
+    PhoneCallTrap.onCall(function(result) {
+        console.log("CHANGE STATE: " + result.state);
+        console.log("CALLER ID: " + result.number); // only in ringing state
 
-        switch (state) {
+        switch (result.state) {
             case "RINGING":
-                console.log("Phone is ringing");
+                console.log("Phone is ringing", result.number);
                 break;
             case "OFFHOOK":
                 console.log("Phone is off-hook");
@@ -28,6 +29,9 @@ It is a Apache Cordova plugin to simplify handling phone call status and events 
         }
     });
 
+NOTE: You must add these two permissions in order to receive caller id:
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
 
 ## Supported platforms
 
