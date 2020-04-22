@@ -1,16 +1,16 @@
 {
-  "name": "io.gvox.plugin.phonecalltrap",
+  "name": "cozzbie.plugin.phonecalltrap",
   "version": "0.1.2",
   "description": "A phone call trap",
   "cordova": {
-    "id": "io.gvox.plugin.phonecalltrap",
+    "id": "cozzbie.plugin.phonecalltrap",
     "platforms": [
       "android"
     ]
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/renanoliveira/cordova-phone-call-trap.git"
+    "url": "git+https://github.com/cozzbie/cordova-phone-call-trap.git"
   },
   "keywords": [
     "phonegap",
@@ -24,10 +24,10 @@
     "ecosystem:cordova",
     "cordova-android"
   ],
-  "author": "Renan Oliveira and Felipe Ferreira",
+  "author": "Timi Aiyemo",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/renanoliveira/cordova-phone-call-trap/issues"
+    "url": "https://github.com/cozzbie/cordova-phone-call-trap.git/issues"
   },
-  "homepage": "https://github.com/renanoliveira/cordova-phone-call-trap#readme"
+  "homepage": "https://github.com/cozzbie/cordova-phone-call-trap.git#readme"
 }

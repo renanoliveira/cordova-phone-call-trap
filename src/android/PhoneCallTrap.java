@@ -1,4 +1,4 @@
-package io.gvox.phonecalltrap;
+package io.cozzbie.phonecalltrap;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
@@ -9,12 +9,14 @@ import android.telephony.TelephonyManager;
 
 import org.json.JSONException;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 
 public class PhoneCallTrap extends CordovaPlugin {
 
     CallStateListener listener;
 
+    @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         prepareListener();
 
@@ -61,7 +63,18 @@ class CallStateListener extends PhoneStateListener {
             break;
         }
 
-        PluginResult result = new PluginResult(PluginResult.Status.OK, msg);
+        JSONObject jso = new JSONObject();
+        String outpool = "";
+        //JSONArray msgJSON = new JSONArray();
+        try{
+            jso.put("state", msg);
+            jso.put("incomingNumber", incomingNumber);
+            outpool = jso.toString();
+        }catch(JSONException e){
+            outpool = "{state: '" + msg + "', incomingNumber: '" + incomingNumber + "'}";
+        }
+
+        PluginResult result = new PluginResult(PluginResult.Status.OK, outpool);
         result.setKeepCallback(true);
 
         callbackContext.sendPluginResult(result);
